@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skill Descriptor Formatting for Sharepoint</title>
+
+    <!-- Add Bootstrap CDN link -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous" />
+
+    <script>
+      function transformText() {
+        // Get the input value from the textarea
+        var inputText = document.getElementById("inputTextarea").value;
+
+        // Split the input into lines
+        var lines = inputText.split("\n");
+
+        // Extract relevant information from each line
+        var grade = lines[0].match(/\d+/)[0]; // Extract the grade using a regular expression
+        var subject = lines[0].split(" ").slice(2).join(" "); // Remove commas from subject
+        var strand = lines[1].trim();
+        var bigIdea = lines[2]; // Lines from the third line to the end
+        var descriptor = lines[3];
+        // Process description lines, capitalize first word and join with underscores
+
+        // Create the transformed output
+        var transformedText =
+          "G" +
+          grade +
+          "_" +
+          subject +
+          "_" +
+          strand +
+          "_" +
+          bigIdea +
+          ": " +
+          descriptor;
+
+        // Display the transformed output
+        var outputTextarea = document.getElementById("outputTextarea");
+        outputTextarea.value = transformedText;
+
+        // Enable the "copy" button
+        document.getElementById("copyButton").disabled = false;
+      }
+
+      function copyToClipboard() {
+        // Select the text in the output textarea
+        var outputTextarea = document.getElementById("outputTextarea");
+        outputTextarea.select();
+
+        // Copy the selected text to the clipboard
+        document.execCommand("copy");
+
+        // Disable the "copy" button after copying
+        document.getElementById("copyButton").disabled = true;
+      }
+    </script>
+  </head>
+
+  <body class="container mt-4">
+    <h1 class="mb-4">Skill Descriptor Formatter</h1>
+
+    <div class="row">
+      <div class="col-6">
+        <label for="inputTextarea">Input Text:</label>
+        <textarea
+          id="inputTextarea"
+          class="form-control"
+          rows="5"
+          cols="50"></textarea
+        ><br />
+
+        <button class="btn btn-primary" onclick="transformText()">
+          Transform Text
+        </button>
+      </div>
+      <div class="col-6">
+        <label for="inputTextarea" class="text-secondary">Sample Input:</label>
+        <textarea
+          id="inputTextarea"
+          class="form-control"
+          rows="5"
+          cols="50"
+          disabled
+          placeholder="Line 1: Grade 9 Social Studies (Subject)
+Line 2: Wabanaki (Strand)
+Line 3: Treaty Education (Big Idea)
+Line 4: Examine key issues involving treaty relationships in Canada. (Skill Descriptor)"></textarea
+        ><br />
+      </div>
+    </div>
+    <br />
+
+    <label for="outputTextarea" class="mt-4">Transformed Text:</label>
+    <textarea
+      id="outputTextarea"
+      class="form-control"
+      rows="1"
+      cols="50"
+      readonly></textarea>
+
+    <button
+      id="copyButton"
+      class="btn btn-secondary mt-2"
+      onclick="copyToClipboard()"
+      disabled>
+      Copy
+    </button>
+  </body>
+</html>
